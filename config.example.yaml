@@ -1,0 +1,99 @@
+defaults:
+  stale_months: 12
+  data_dir: "data"
+  reports_dir: "reports"
+  log_level: "INFO"
+  # Timezone for `activity` date ranges: --since/--until are whole days here
+  # (IANA name; default Europe/London)
+  timezone: "Europe/London"
+
+# Optional: fold a developer's other git identities into their GitHub login
+# in `activity` reports. Keys are logins; values are git author names or
+# emails that can't be resolved automatically (no noreply email, name that
+# differs from the login). Matching is case-insensitive.
+# developer_aliases:
+#   miaLind:
+#     - "Mia Lindberg"
+#     - "mia@personal-laptop.example"
+#   madler:
+#     - "Mohan Adler"
+
+accounts:
+  - slug: "my-user"
+    type: "user"              # "user" or "org"
+    username: "my-github-username"
+    token: "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    include_private: true
+    include_forks: true
+    # data_dir: "/mnt/work/repos"  # Override default data_dir for this account
+    # exclude_repos:          # Repos to skip during checkout and audit
+    #   - "broken-legacy-project"
+    #   - "archived-experiment"
+    # branch_overrides:       # Track these branches instead of the GitHub default
+    #   some-repo: "develop"
+    # active_within_months: 12  # `checkout` only clones/pulls repos pushed to
+    #   within this many months for this account. Omit for no filtering
+    #   (default). Override per-run with `checkout --months N`.
+    # local_only: true          # `activity` reports from local checkouts only
+    #   and never calls the API (no PRs, issues or reviews) — for accounts
+    #   whose access has ended. Per-run equivalent: `activity --local-only`.
+    #   A failed API login falls back to this automatically.
+
+  # Example: organisation account
+  # - slug: "my-org"
+  #   type: "org"
+  #   username: "org-name"
+  #   token: "ghp_yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+  #   include_private: true
+  #   include_forks: false
+
+  # Example: third-party account (track someone else's public repos)
+  # Use your own token for higher API rate limits (5000/hr vs 60/hr)
+  # - slug: "famous-dev"
+  #   type: "user"
+  #   username: "famous-dev"           # The user/org you want to track
+  #   token: "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # YOUR token (for rate limits)
+  #   include_private: false
+  #   include_forks: false
+  #   include_repos:                   # Only track these repos (allowlist)
+  #     - "cool-project"
+  #     - "awesome-lib"
+
+  # Example: public-only (no token — lower rate limits)
+  # - slug: "public-user"
+  #   type: "user"
+  #   username: "someone"
+  #   token: null
+  #   include_private: false
+
+  # Example: Bitbucket Cloud account (read-only: checkout/audit/activity)
+  # Generate the token from the Atlassian account's API token settings at
+  # id.atlassian.com (Security > API tokens), with these scopes:
+  #   Repositories:Read, Pull requests:Read, Issues:Read
+  # Bitbucket API-token auth uses HTTP Basic auth: auth_email as the username,
+  # the API token (in 'token') as the password.
+  # - slug: "my-bitbucket-workspace"
+  #   type: "user"              # still required by config validation; value is
+  #                              # ignored for bitbucket accounts (no user/org
+  #                              # distinction — "workspace" identifies it instead)
+  #   provider: "bitbucket"
+  #   workspace: "my-workspace-slug"
+  #   username: "my-workspace-display-name"
+  #   auth_email: "me@example.com"
+  #   token: "ATATTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Projects — group repos from any account into named collections.
+# Use --project <name> with commands to scope operations.
+# Use "accounts" to include all repos from an account, or "repos" for specific repos.
+# Both can be combined in the same project.
+# projects:
+#   client-work:
+#     description: "Client X web platform"
+#     accounts:              # Include ALL repos from these accounts
+#       - my-org
+#     repos:                 # Include specific repos from other accounts
+#       - my-user/web-app
+#   open-source:
+#     description: "My open source work"
+#     repos:
+#       - my-user/cool-project

@@ -1,0 +1,43 @@
+# Credentials
+config.yaml
+githubToken.php
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+*.egg
+
+# Coverage
+.coverage
+htmlcov/
+
+# Data (checked out repos, top-level only)
+/data/
+
+# Project symlink directories
+/projects/
+
+# Generated reports (top-level only, not src/auditer/reports/)
+/reports/
+
+# PHP legacy
+vendor/
+composer.lock
+composer
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code local files
+.claude/
